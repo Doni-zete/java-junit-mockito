@@ -1,5 +1,7 @@
 package com.donizetesa.demo.api.resource;
 
+import com.donizetesa.demo.api.dto.BookDTO;
+import com.donizetesa.demo.service.BookService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static com.donizetesa.demo.api.dto.BookDTO.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -29,11 +32,14 @@ public class BookControllerTest {
     @Autowired
     MockMvc mvc;
 
+    BookService service;
+
     @Test
     @DisplayName("Deve criar um livro com sucesso.")
     public void createBooktest() throws Exception {
 
-        String json = new ObjectMapper().writeValueAsString(null);
+        BookDTO dto = BookDTO.builder().author("Alerandro").title("La saga").isbn("001").build();
+        String json = new ObjectMapper().writeValueAsString(dto);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(BOOK_API)
@@ -44,9 +50,9 @@ public class BookControllerTest {
         mvc.perform(request)
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").isNotEmpty())
-                .andExpect(jsonPath("title").value("Meu livro"))
-                .andExpect(jsonPath("author").value("Autor"))
-                .andExpect(jsonPath("isbn").value("123456"))
+                .andExpect(jsonPath("title").value(dto.getTitle()))
+                .andExpect(jsonPath("author").value(dto.getAuthor()))
+                .andExpect(jsonPath("isbn").value(dto.getIsbn()))
 
         ;
     }
