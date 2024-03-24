@@ -1,15 +1,14 @@
 package org.example;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.testng.annotations.BeforeClass;
-
 
 public class CadastroPessoasTest {
     CadastroPessoas cadastroPessoas;
 
-    @BeforeClass
+    @BeforeEach
     public void setup() {
         cadastroPessoas = new CadastroPessoas();
     }
@@ -22,6 +21,7 @@ public class CadastroPessoasTest {
         //verificação
         Assertions.assertThat(cadastroPessoas.getPessoas()).isEmpty();
     }
+
 
     @Test
     @DisplayName("Deve adicionar uma pessoa.")
@@ -49,7 +49,7 @@ public class CadastroPessoasTest {
 
         //execução
         org.junit.jupiter.api.Assertions
-                .assertThrows(PessoaSemNotException.class,()-> cadastroPessoas.adicionar(pessoa));
+                .assertThrows(PessoaSemNotException.class, () -> cadastroPessoas.adicionar(pessoa));
     }
 
     @Test
@@ -67,7 +67,6 @@ public class CadastroPessoasTest {
         Assertions.assertThat(cadastroPessoas.getPessoas()).isEmpty();
 
 
-
     }
 
     @Test
@@ -79,8 +78,9 @@ public class CadastroPessoasTest {
 
         //execução
         org.junit.jupiter.api.Assertions
-                .assertThrows(CadastroVazioException.class,()-> cadastroPessoas.remover(pessoa));
+                .assertThrows(CadastroVazioException.class, () -> cadastroPessoas.remover(pessoa));
 
     }
+
 
 }
